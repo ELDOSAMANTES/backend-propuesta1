@@ -1,0 +1,10 @@
+node_modules/
+.env
+*.db
+*.sqlite
+*.csv
+*.json
+*.log
+__pycache__/
+dist/
+build/cat .gitignore

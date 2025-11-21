@@ -1,0 +1,137 @@
+openapi: 3.0.3
+info:
+  title: Requisiciones API
+  version: "1.1.0"
+  description: >
+    API REST para gestionar requisiciones, áreas, usuarios, anexos y catálogos de apoyo
+servers:
+  - url: http://localhost:3001/api/v1
+
+paths:
+  /health:
+    get:
+      summary: Verifica el estado del servidor
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+
+  /requisiciones:
+    get:
+      summary: Lista todas las requisiciones
+      responses:
+        '200':
+          description: Lista obtenida correctamente
+    post:
+      summary: Crea una nueva requisición
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequisicionCreate'
+      responses:
+        '201':
+          description: Requisición creada
+
+  /requisiciones/{id}:
+    get:
+      summary: Obtiene una requisición por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Requisición encontrada
+        '404':
+          description: No encontrada
+
+    put:
+      summary: Actualiza una requisición existente
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequisicionUpdate'
+      responses:
+        '200':
+          description: Requisición actualizada
+
+    delete:
+      summary: Elimina una requisición
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Requisición eliminada
+
+components:
+  schemas:
+    Requisicion:
+      type: object
+      properties:
+        id:
+          type: integer
+        folio:
+          type: string
+        fecha_elaboracion:
+          type: string
+          format: date
+        estatus:
+          type: string
+        usuario_id:
+          type: integer
+        area_id:
+          type: integer
+
+    RequisicionCreate:
+      type: object
+      required:
+        - folio
+        - fecha_elaboracion
+        - usuario_id
+        - area_id
+      properties:
+        folio:
+          type: string
+        fecha_elaboracion:
+          type: string
+          format: date
+        usuario_id:
+          type: integer
+        area_id:
+          type: integer
+        tipo_contratacion:
+          type: string
+        programa_proyecto:
+          type: string
+        justificacion:
+          type: string
+        estatus:
+          type: string
+          default: "CREADA"
+
+    RequisicionUpdate:
+      allOf:
+        - $ref: '#/components/schemas/RequisicionCreate'

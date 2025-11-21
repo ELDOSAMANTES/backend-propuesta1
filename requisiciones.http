@@ -1,0 +1,37 @@
+// Archivo para probar la API con REST Client en VSCode
+@base = http://localhost:3001/api/v1
+
+### Verificar servidor
+GET {{base}}/health
+
+### Listar requisiciones
+GET {{base}}/requisiciones
+
+### Crear requisición
+POST {{base}}/requisiciones
+Content-Type: application/json
+
+{
+  "folio": "REQ-2025-0003",
+  "fecha_elaboracion": "2025-10-16",
+  "usuario_id": 1,
+  "area_id": 1,
+  "tipo_contratacion": "Adquisición",
+  "programa_proyecto": "Proyecto A",
+  "justificacion": "Compra de equipos de cómputo",
+  "estatus": "CREADA"
+}
+
+### Obtener por ID
+GET {{base}}/requisiciones/1
+
+### Actualizar requisición
+PUT {{base}}/requisiciones/1
+Content-Type: application/json
+
+{
+  "estatus": "EN REVISION"
+}
+
+### Eliminar requisición
+DELETE {{base}}/requisiciones/1
