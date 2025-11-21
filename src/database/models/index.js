@@ -8,6 +8,7 @@ import setupPartida from './partida.model.js';
 import setupRequisicion from './requisicion.model.js';
 import setupUsuario from './usuario.model.js';
 import setupCucop from './cucop.model.js'; // <-- AÑADIR importación
+import setupCompranetFuente from './compranetFuente.model.js'; //
 
 export function setupModels(sequelize) {
   const Anexo = setupAnexo(sequelize);
@@ -19,6 +20,7 @@ export function setupModels(sequelize) {
   const Requisicion = setupRequisicion(sequelize);
   const Usuario = setupUsuario(sequelize);
   const Cucop = setupCucop(sequelize); // <-- AÑADIR inicialización
+  const CompranetFuente = setupCompranetFuente(sequelize); // <<< NUEVO
 
   // --- Relaciones ---
 
@@ -61,7 +63,15 @@ export function setupModels(sequelize) {
   // Investigación de mercado ↔ Fuentes (1:N)
   InvestigacionMercado.hasMany(FuenteInvestigacion, { foreignKey: { name: 'investigacion_id', allowNull: false }, onDelete: 'CASCADE' });
   FuenteInvestigacion.belongsTo(InvestigacionMercado, { foreignKey: { name: 'investigacion_id', allowNull: false } });
-
+  
+  // Relación Requisición ↔ CompranetFuente (1:N)
+  Requisicion.hasMany(CompranetFuente, { 
+    foreignKey: { name: 'requisicion_id', allowNull: false }, 
+    onDelete: 'CASCADE' 
+  });
+  CompranetFuente.belongsTo(Requisicion, { 
+    foreignKey: { name: 'requisicion_id', allowNull: false } 
+  });
   // Modelo Cucop no tiene relaciones directas definidas aquí con otros modelos
 
   return {
@@ -73,6 +83,7 @@ export function setupModels(sequelize) {
     Partida,
     Requisicion,
     Usuario,
-    Cucop, // <-- AÑADIR al objeto exportado
+    Cucop,
+    CompranetFuente, // <-- AÑADIR al objeto exportado
   };
 }

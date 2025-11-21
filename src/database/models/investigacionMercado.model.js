@@ -6,13 +6,16 @@ export default (sequelize) => {
   InvestigacionMercado.init({
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     requisicion_id: { type: DataTypes.INTEGER, allowNull: false },
-    proveedor: { type: DataTypes.STRING(150), allowNull: false },
-    precio_unitario: { type: DataTypes.DECIMAL(12, 2), allowNull: false },
-    url_cotizacion: { type: DataTypes.STRING(500), allowNull: true },
-    observaciones: { type: DataTypes.TEXT, allowNull: true },
+    
+    // CORRECCIÓN: Usamos los campos de la tabla 'singular' que coinciden con tu servicio
+    proveedor_seleccionado: { type: DataTypes.STRING(180), allowNull: true }, 
+    razon_seleccion: { type: DataTypes.TEXT, allowNull: true },
+    
+    // Eliminamos 'proveedor', 'precio_unitario' y 'url_cotizacion' porque esos
+    // pertenecen a la tabla de detalles (cotizaciones), no a este encabezado.
   }, {
     sequelize,
-    tableName: 'investigaciones_mercado',
+    tableName: 'investigacion_mercado', // <--- OJO: Nombre en singular
     modelName: 'InvestigacionMercado',
     timestamps: true,
     createdAt: 'created_at',

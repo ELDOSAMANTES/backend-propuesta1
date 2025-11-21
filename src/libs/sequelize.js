@@ -20,7 +20,7 @@ export async function connectDB() {
   try {
     await sequelize.authenticate();
     console.log('✅ Conexión a PostgreSQL establecida.');
-    await sequelize.sync({ alter: false });
+    await sequelize.sync({ alter: true });
   } catch (err) {
     console.error('❌ Error al conectar a la BD:', err);
   }

@@ -4,6 +4,7 @@ import requisicionRouter from './requisicion.router.js';
 import cucopRouter from './cucop.router.js';
 // 1. IMPORTA TU NUEVO ROUTER
 import compranetRouter from './compranet.router.js'; 
+import usuarioRouter from './usuario.router.js';
 
 // Define la función que configura todas las rutas de la API v1
 export default function routerApi(app) {
@@ -17,5 +18,6 @@ export default function routerApi(app) {
   router.use('/cucop', cucopRouter);           // Rutas para /api/v1/cucop/...
 
   // 2. USA TU NUEVO ROUTER
-  router.use('/compranet', compranetRouter);   // Rutas para /api/v1/compranet/...
+  router.use('/compranet', compranetRouter);
+  router.use('/perfil', usuarioRouter);   // Rutas para /api/v1/compranet/...
 }

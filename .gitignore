@@ -7,4 +7,4 @@ node_modules/
 *.log
 __pycache__/
 dist/
-build/cat .gitignore
+build/cat .gitignore    

@@ -12,7 +12,12 @@ export async function create(req, res, next) {
       });
     }
     const data = await service.create(req.body);
-    res.status(201).json(data);
+    
+    // ✅ CORRECCIÓN: Envolvemos en 'data'
+    res.status(201).json({ 
+      message: 'Requisición creada con éxito',
+      data 
+    });
   } catch (e) {
     next(e);
   }
@@ -22,8 +27,12 @@ export async function list(req, res, next) {
   try {
     const page = Number(req.query.page ?? 1);
     const limit = Number(req.query.limit ?? 20);
-    const data = await service.findAll({ page, limit });
-    res.json(data);
+    const result = await service.findAll({ page, limit });
+    
+    // ✅ CORRECCIÓN: Envolvemos el resultado
+    // result es { total, data: [] }, así que al envolverlo, 
+    // el frontend recibirá response.data.data.total correctamente
+    res.json({ data: result });
   } catch (e) {
     next(e);
   }
@@ -32,7 +41,9 @@ export async function list(req, res, next) {
 export async function getById(req, res, next) {
   try {
     const data = await service.findById(req.params.id);
-    res.json(data);
+    
+    // ✅ CORRECCIÓN: Esto es lo que arregla tu error actual ("No se puede cargar")
+    res.json({ data });
   } catch (e) {
     next(e);
   }
@@ -41,7 +52,12 @@ export async function getById(req, res, next) {
 export async function update(req, res, next) {
   try {
     const data = await service.update(req.params.id, req.body);
-    res.json(data);
+    
+    // ✅ CORRECCIÓN: Envolvemos para futuras ediciones
+    res.json({ 
+      message: 'Requisición actualizada',
+      data 
+    });
   } catch (e) {
     next(e);
   }
@@ -50,7 +66,12 @@ export async function update(req, res, next) {
 export async function remove(req, res, next) {
   try {
     const data = await service.remove(req.params.id);
-    res.json(data);
+    
+    // ✅ CORRECCIÓN: Envolvemos para eliminaciones
+    res.json({ 
+      message: 'Requisición eliminada',
+      data 
+    });
   } catch (e) {
     next(e);
   }
