@@ -8,4 +8,4 @@ const router = Router();
 router.get('/historico', ctrl.buscarHistorico);
 
 
-export default router;
+export default router;  

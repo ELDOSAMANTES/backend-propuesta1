@@ -18,7 +18,8 @@ class CucopService {
       const resultadoMapeado = {
         codigo: producto.id,
         descripcion: producto.descripcion,
-        unidad: producto.unidad_medida, // Revisa nombre de columna
+        unidad: producto.unidad_medida,
+        precio_unitario: producto.precio_unitario,
       };
       console.log("[CucopService] Devolviendo:", resultadoMapeado);
       return resultadoMapeado;

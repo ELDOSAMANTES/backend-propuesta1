@@ -9,6 +9,7 @@ export default (sequelize) => {
       descripcion: { type: DataTypes.TEXT, allowNull: false },
       unidad_medida: { type: DataTypes.STRING(50), allowNull: false },
       activo: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },
+      precio_unitario: { type: DataTypes.DECIMAL(12, 2), allowNull: true } // Añadida la columna aquí
     },
     { sequelize, tableName: 'cucop', modelName: 'Cucop', timestamps: true, underscored: true }
   );
