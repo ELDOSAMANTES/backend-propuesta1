@@ -1,14 +1,25 @@
 // src/routes/cucop.router.js
 import express from 'express';
-// Importa la CLASE del controlador por defecto
-import CucopController from '../controllers/cucop.controller.js'; // Verifica la ruta
+import { 
+  getCapitulos, 
+  getGenericas, 
+  getEspecificas, 
+  getProductos 
+} from '../controllers/cucop.controller.js';
 
 const router = express.Router();
-// Crea una INSTANCIA de la clase del controlador
-const ctrl = new CucopController();
 
-// Define la ruta GET /buscar/:codigo que llama al método getByCodigo de la instancia
-router.get('/buscar/:codigo', ctrl.getByCodigo);
+// 1. Capítulos
+router.get('/capitulos', getCapitulos);
 
-// Exporta el router para que index.js lo pueda usar
+// 2. Genéricas (Filtrado por Capítulo)
+// IMPORTANTE: Fíjate que la URL incluye '/genericas' al final
+router.get('/capitulo/:id/genericas', getGenericas);
+
+// 3. Específicas (Filtrado por Genérica)
+router.get('/generica/:id/especificas', getEspecificas);
+
+// 4. Productos
+router.get('/especifica/:id/productos', getProductos);
+
 export default router;

@@ -1,17 +1,58 @@
-// src/database/models/cucop.model.js
-import { DataTypes, Model } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
 
-export default (sequelize) => {
-  class Cucop extends Model {}
-  Cucop.init(
-    {
-      id: { type: DataTypes.STRING(32), primaryKey: true, allowNull: false },
-      descripcion: { type: DataTypes.TEXT, allowNull: false },
-      unidad_medida: { type: DataTypes.STRING(50), allowNull: false },
-      activo: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },
-      precio_unitario: { type: DataTypes.DECIMAL(12, 2), allowNull: true } // Añadida la columna aquí
-    },
-    { sequelize, tableName: 'cucop', modelName: 'Cucop', timestamps: true, underscored: true }
-  );
-  return Cucop;
+const CUCOP_TABLE = 'cucop';
+
+const CucopSchema = {
+  // 1. CORRECCIÓN: Tu llave primaria es 'id', no 'clave_cucop_plus'
+  id: {
+    allowNull: false,
+    primaryKey: true,
+    type: DataTypes.STRING,
+    field: 'id' // Nombre exacto en la BD
+  },
+  
+  // 2. Descripción
+  descripcion: {
+    type: DataTypes.TEXT,
+    field: 'descripcion'
+  },
+
+  // 3. CORRECCIÓN: En tu BD se llama 'unidad_medida'
+  unidad: {
+    type: DataTypes.STRING,
+    field: 'unidad_medida' // Mapeamos la propiedad 'unidad' a la columna 'unidad_medida'
+  },
+
+  // 4. CORRECCIÓN: En tu BD se llama 'precio_unitario'
+  precioEstimado: {
+    type: DataTypes.DECIMAL(10, 2),
+    field: 'precio_unitario', // Mapeamos 'precioEstimado' a 'precio_unitario'
+    defaultValue: 0
+  },
+
+  // 5. Partida Específica
+  partidaEspecifica: {
+    type: DataTypes.STRING,
+    field: 'partida_especifica'
+  }
 };
+
+class Cucop extends Model {
+  static associate(models) {
+    // Sin relaciones por ahora
+  }
+
+  static config(sequelize) {
+    return {
+      sequelize,
+      tableName: CUCOP_TABLE,
+      modelName: 'Cucop',
+      timestamps: false // Importante si tu tabla no tiene created_at/updated_at
+    };
+  }
+}
+
+export default function setupCucop(sequelize) {
+  Cucop.init(CucopSchema, Cucop.config(sequelize));
+  return Cucop;
+}
